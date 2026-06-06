@@ -26,7 +26,7 @@ sequenceDiagram
     participant Repo as InventoryRepository
     participant DB as PostgreSQL
 
-    Client->>Controller: GET /api/v1/search-inventory<br/>?category=Electronics<br/>&seller=Amazon&page=0&size=10
+    Client->>Controller: GET /api/v1/inventory/search-inventory<br/>?category=Electronics<br/>&seller=Amazon&page=0&size=10
 
     Controller->>Controller: Validate request parameters
 
@@ -64,7 +64,7 @@ sequenceDiagram
     participant Repo as InventoryRepository
     participant DB as PostgreSQL
 
-    Client->>Controller: POST /api/v1/add-inventory
+    Client->>Controller: POST /api/v1/inventory/add-inventory
 
     Controller->>Controller: Validate request body
 
@@ -111,10 +111,10 @@ sequenceDiagram
 
 ## API Endpoints
 
-| Method | Endpoint                                         | Description |
-|----------|--------------------------------------------------|----------|
-| GET | /api/v1/search-inventory?category=Electronics&.. | Retrieve paginated inventory records |
-| POST | /api/v1/add-inventory                            | Add a new inventory record |
+| Method | Endpoint                                                   | Description |
+|----------|------------------------------------------------------------|----------|
+| GET | /api/v1/inventory/search-inventory?category=Electronics&.. | Retrieve paginated inventory records |
+| POST | /api/v1/inventory/add-inventory                            | Add a new inventory record |
 
 ---
 
@@ -126,7 +126,7 @@ sequenceDiagram
 erDiagram
 
     INVENTORY {
-        BIGSERIAL id PK
+        BIGINT id PK
         VARCHAR name
         VARCHAR category
         VARCHAR sub_category
@@ -172,7 +172,7 @@ erDiagram
 
 ## Testing
 
-- Unit Tests
+- Unit Tests for Service Layer and Utility Classes
 
 ---
 
