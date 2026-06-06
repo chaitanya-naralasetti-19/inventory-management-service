@@ -29,7 +29,7 @@ sequenceDiagram
     Client->>Controller: GET /api/v1/inventory/search<br/>?category=Electronics<br/>&seller=Amazon&page=0&size=10
 
     alt No Data with Given Filters
-        DB-->>Client: HTTP 404 Inventory Not Found
+        DB-->>Client: HTTP 204 Inventory Not Found
     else Valid Request
         Controller->>Service: searchInventories(searchRequest)
 

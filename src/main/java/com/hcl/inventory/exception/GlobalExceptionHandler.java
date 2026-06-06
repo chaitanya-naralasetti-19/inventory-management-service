@@ -18,13 +18,13 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
-                .status(HttpStatus.NOT_FOUND.value())
+                .status(HttpStatus.NO_CONTENT.value())
                 .error("Inventory Not Found")
                 .message(ex.getMessage())
                 .build();
 
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
+                .status(HttpStatus.NO_CONTENT)
                 .body(response);
     }
 }
