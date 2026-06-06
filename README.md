@@ -30,8 +30,8 @@ sequenceDiagram
 
     Controller->>Controller: Validate request parameters
 
-    alt Invalid Request
-        Controller-->>Client: HTTP 400 Bad Request
+    alt No Data with Given Filters
+        Controller-->>Client: HTTP 404 Inventory Not Found
     else Valid Request
         Controller->>Service: searchInventories(searchRequest)
 
