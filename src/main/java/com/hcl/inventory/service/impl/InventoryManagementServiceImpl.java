@@ -2,6 +2,7 @@ package com.hcl.inventory.service.impl;
 
 import com.hcl.inventory.dto.InventoryResponseDTO;
 import com.hcl.inventory.entity.Inventory;
+import com.hcl.inventory.exception.InventoryNotFoundException;
 import com.hcl.inventory.filter.InventoryFilter;
 import com.hcl.inventory.repository.InventoryRepository;
 import com.hcl.inventory.service.InventoryManagementService;
@@ -25,6 +26,12 @@ public class InventoryManagementServiceImpl implements InventoryManagementServic
         log.info("Searching inventory with filter: {} and pageable: {}", filter, pageable);
         Specification<Inventory> specification = InventorySpecification.build(filter);
         Page<Inventory> inventoryPage = inventoryRepository.findAll(specification, pageable);
+        if (inventoryPage.isEmpty()) {
+            log.info("No inventory items found for filter: {}", filter);
+            throw new InventoryNotFoundException(
+                    InventoryUtil.buildNoRecordsMessage(filter)
+            );
+        }
         log.info("Found {} inventory items", inventoryPage.getTotalElements());
         return inventoryPage.map(InventoryUtil::convertToDto);
     }

@@ -26,7 +26,7 @@ sequenceDiagram
     participant Repo as InventoryRepository
     participant DB as PostgreSQL
 
-    Client->>Controller: GET /api/v1/inventory/search-inventory<br/>?category=Electronics<br/>&seller=Amazon&page=0&size=10
+    Client->>Controller: GET /api/v1/inventory/search<br/>?category=Electronics<br/>&seller=Amazon&page=0&size=10
 
     Controller->>Controller: Validate request parameters
 
@@ -50,40 +50,6 @@ sequenceDiagram
         Service-->>Controller: InventoryResponse
 
         Controller-->>Client: HTTP 200 OK + Paginated Results
-    end
-```
-## 2. Add Inventory API
-
-```mermaid
-sequenceDiagram
-    autonumber
-
-    actor Client
-    participant Controller as InventoryController
-    participant Service as InventoryService
-    participant Repo as InventoryRepository
-    participant DB as PostgreSQL
-
-    Client->>Controller: POST /api/v1/inventory/add-inventory
-
-    Controller->>Controller: Validate request body
-
-    alt Validation Failed
-        Controller-->>Client: HTTP 400 Bad Request
-    else Valid Request
-        Controller->>Service: createInventory(request)
-
-        Service->>Repo: save(inventory)
-
-        Repo->>DB: INSERT Inventory
-
-        DB-->>Repo: Inventory Saved
-
-        Repo-->>Service: Persisted Inventory
-
-        Service-->>Controller: Inventory Response
-
-        Controller-->>Client: HTTP 201 Created
     end
 ```
 ---
@@ -111,10 +77,9 @@ sequenceDiagram
 
 ## API Endpoints
 
-| Method | Endpoint                                                   | Description |
-|----------|------------------------------------------------------------|----------|
-| GET | /api/v1/inventory/search-inventory?category=Electronics&.. | Retrieve paginated inventory records |
-| POST | /api/v1/inventory/add-inventory                            | Add a new inventory record |
+| Method | Endpoint                                         | Description |
+|----------|--------------------------------------------------|----------|
+| GET | /api/v1/inventory/search?category=Electronics&.. | Retrieve paginated inventory records |
 
 ---
 

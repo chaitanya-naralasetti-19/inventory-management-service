@@ -2,7 +2,11 @@ package com.hcl.inventory.util;
 
 import com.hcl.inventory.dto.InventoryResponseDTO;
 import com.hcl.inventory.entity.Inventory;
+import com.hcl.inventory.filter.InventoryFilter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 public class InventoryUtil {
@@ -26,5 +30,43 @@ public class InventoryUtil {
                 .createdAt(inventory.getCreatedAt())
                 .updatedAt(inventory.getUpdatedAt())
                 .build();
+    }
+
+    public static String buildNoRecordsMessage(InventoryFilter filter) {
+
+        List<String> criteria = new ArrayList<>();
+
+        if (filter.getName() != null) {
+            criteria.add("name=" + filter.getName());
+        }
+
+        if (filter.getCategory() != null) {
+            criteria.add("category=" + filter.getCategory());
+        }
+
+        if (filter.getSubCategory() != null) {
+            criteria.add("subCategory=" + filter.getSubCategory());
+        }
+
+        if (filter.getSeller() != null) {
+            criteria.add("seller=" + filter.getSeller());
+        }
+
+        if (filter.getLocation() != null) {
+            criteria.add("location=" + filter.getLocation());
+        }
+
+        if (filter.getMinPrice() != null) {
+            criteria.add("minPrice=" + filter.getMinPrice());
+        }
+
+        if (filter.getMaxPrice() != null) {
+            criteria.add("maxPrice=" + filter.getMaxPrice());
+        }
+
+        return String.format(
+                "No inventory records found matching filter criteria [%s]",
+                String.join(", ", criteria)
+        );
     }
 }

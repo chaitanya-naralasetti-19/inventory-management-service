@@ -19,7 +19,7 @@ public class InventoryManagementController {
 
     private final InventoryManagementService inventoryManagementService;
 
-    @GetMapping("/search-inventory")
+    @GetMapping("/search")
     public Page<InventoryResponseDTO> searchInventory(InventoryFilter inventoryFilter, Pageable pageable) {
         log.info("Received search inventory request with filter and pageable: {} :: {}", inventoryFilter, pageable);
         return inventoryManagementService.searchInventory(inventoryFilter, pageable);

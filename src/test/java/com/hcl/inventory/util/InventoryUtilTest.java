@@ -5,6 +5,7 @@ import com.hcl.inventory.entity.Inventory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import com.hcl.inventory.filter.InventoryFilter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -364,6 +365,46 @@ class InventoryUtilTest {
         assertEquals(2L, dto2.getId());
         assertEquals("Product 1", dto1.getName());
         assertEquals("Product 2", dto2.getName());
+    }
+
+    @Test
+    @DisplayName("Should build no-records message with provided filter criteria")
+    void testBuildNoRecordsMessageWithCriteria() {
+        // Arrange
+        InventoryFilter filter = new InventoryFilter();
+        filter.setName("Test Product");
+        filter.setCategory("Electronics");
+        filter.setSubCategory("Mobile Devices");
+        filter.setSeller("Test Seller");
+        filter.setLocation("Warehouse A");
+        filter.setMinPrice(new java.math.BigDecimal("100.00"));
+        filter.setMaxPrice(new java.math.BigDecimal("200.00"));
+
+        // Act
+        String message = InventoryUtil.buildNoRecordsMessage(filter);
+
+        // Assert
+        String expected = "No inventory records found matching filter criteria [name=Test Product, category=Electronics, subCategory=Mobile Devices, seller=Test Seller, location=Warehouse A, minPrice=100.00, maxPrice=200.00]";
+        assertEquals(expected, message);
+    }
+
+    @Test
+    @DisplayName("Should build no-records message when no filter criteria provided")
+    void testBuildNoRecordsMessageWithNoCriteria() {
+        // Arrange
+        InventoryFilter filter = new InventoryFilter();
+
+        // Act
+        String message = InventoryUtil.buildNoRecordsMessage(filter);
+
+        // Assert
+        assertEquals("No inventory records found matching filter criteria []", message);
+    }
+
+    @Test
+    @DisplayName("Should throw NullPointerException when filter is null")
+    void testBuildNoRecordsMessageWithNullFilter() {
+        assertThrows(NullPointerException.class, () -> InventoryUtil.buildNoRecordsMessage(null));
     }
 }
 
